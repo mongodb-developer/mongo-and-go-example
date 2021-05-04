@@ -16,7 +16,7 @@ func main() {
 	/*
 			Connect to my cluster
 	*/
-	client, err := mongo.NewClient(options.Client().ApplyURI("<ATLAS_URI"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("<ATLAS_URI>"))
 	if err != nil {
 		log.Fatal(err)
 	}
