@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
-	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,28 +11,20 @@ import (
 
 func main() {
 
-	/*
-			Connect to my cluster
-	*/
-	client, err := mongo.NewClient(options.Client().ApplyURI("<ATLAS_URI>"))
+	// Connect to my cluster
+	client, err := mongo.Connect(
+		context.Background(),
+		options.Client().ApplyURI("<ATLAS_URI>"))
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	err = client.Connect(ctx)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer client.Disconnect(ctx)
+	defer client.Disconnect(context.Background())
 
-	/*
-			List databases
-	*/
-	databases, err := client.ListDatabaseNames(ctx, bson.M{})
+	// List databases
+	databases, err := client.ListDatabaseNames(context.TODO(), bson.D{})
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	fmt.Println(databases)
-
 
 }
